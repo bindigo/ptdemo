@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>D3</title>
+  <style>
+    .text {
+  		text-anchor: middle;
+  		font-family: arial;
+  		font-size: 22px;
+  	}
+  </style>
+</head>
+
+<body>
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KP9LKZ"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KP9LKZ');</script>
+  <!-- End Google Tag Manager -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+  <script>
+  var body = d3.select("body");
+
+  // --- line chart ---
+  var width = 400;
+  var height = 400;
+
+  // create canvas
+  var svg = body.append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  var dataset = [10, 20, 30, 24, 12];
+
+  var pie = d3.layout.pie();
+
+  var piedata = pie(dataset);
+
+  var innerRadius = 0;
+  var outerRadius = 180;
+  var arc = d3.svg.arc()
+  			.innerRadius(innerRadius)
+  			.outerRadius(outerRadius);
+
+  var color = d3.scale.category10();
+
+  var arcs = svg.selectAll(".arcGroups")
+  			.data(piedata)
+  			.enter()
+  			.append("g")
+  			.attr("class","arcGroups")
+  			.attr("transform","translate(200,200)");
+
+  arcs.append("path")
+  	.attr("fill",function(d,i){
+  		return color(i);
+  	})
+  	.attr("d", function(d){
+  		return arc(d);
+  	});
+
+  arcs.append("text")
+  	.attr("class","text")
+  	.attr("transform", function(d){
+  		var center = arc.centroid(d);
+  		return "translate(" +
+  			center[0] * 1.4 + "," +
+  			center[1] * 1.4 + ")";
+  	})
+  	.text(function(d){
+  		return d.value;
+  	})
+
+
+  console.log(piedata);
+  </script>
+</body>
+<html>

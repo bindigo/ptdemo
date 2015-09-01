@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>D3</title>
+  <style>
+    .rect {
+      fill: steelblue;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KP9LKZ"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KP9LKZ');</script>
+  <!-- End Google Tag Manager -->
+
+  <p>Apple</p>
+  <p id='p_pear' class='fruit'>Pear</p>
+  <p class='fruit'>Banana</p>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+  <script>
+  // item selection
+  var body = d3.select("body");
+  // var p = body.select("p");
+  // var p = body.selectAll("p");
+  // var p = body.select("#p_pear");
+  // var p = body.selectAll(".fruit");
+  // p.style("color", "red");
+
+  // data binding
+  // var num = 30;
+  var dataset = [30, 40, 50, 60, 70];
+
+  var p = body.selectAll("p");
+
+  // p.datum(num);
+  var update = p.data(dataset)
+    .text(function(d, i){
+      return d + " " + i;
+    });
+
+  var enter = update.enter()
+    .append("p")
+    .text(function(d){
+      return d;
+    });
+
+  var exit = update.exit()
+    .remove();
+
+  // --- bar graph ---
+  var width = 200;
+  var height = 200;
+
+  // create canvas
+  var svg = body.append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  // create bars
+  var rects = svg.selectAll(".rect")
+    .data(dataset)
+    .enter()
+    .append("rect")
+    .attr("class", "rect")
+    .attr("x", function(d, i){
+      return 20 + 35 * i;
+    })
+    .attr("y", function(d, i){
+      return height - 80 - d;
+    })
+    .attr("width", 30)
+    .attr("height", function(d){
+      return d;
+    });
+  </script>
+
+</body>
+<html>

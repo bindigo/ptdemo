@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>D3</title>
+  <style>
+    .mycircle {
+      fill: green;
+      stroke: black;
+      stroke-width: 3px;
+    }
+
+    .myrect {
+      fill: yellow;
+      stroke: blue;
+      stroke-width: 6px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KP9LKZ"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KP9LKZ');</script>
+  <!-- End Google Tag Manager -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+  <script>
+    var body = d3.select("body");
+    body.append("h1")
+      .text("Bindiego");
+
+    body.append("p")
+      .text("bindiego is here.");
+
+    // create canvas
+    var svg = body.append("svg")
+      .attr("width", 400)
+      .attr("height", 400);
+
+    // draw circle
+    svg.append("circle")
+      .attr("cx", 100)
+      .attr("cy", 200)
+      .attr("r", 80)
+      .attr("class", "mycircle");
+
+    // draw rect
+    svg.append("rect")
+      .attr("x", 200)
+      .attr("y", 120)
+      .attr("width", 150)
+      .attr("height", 200)
+      .attr("class", "myrect");
+  </script>
+  <h3>d3</h3>
+  <a href="d3/bar.html">basic bar graph</a> 
+  <a href="d3/bar_adv.html">advanced bar graph</a>
+  <a href="d3/linechart.html">line chart</a> 
+  <a href="d3/discrete.html">discrete graph</a>
+  <a href="d3/pie.html">pie chart</a>
+</body>
+<html>

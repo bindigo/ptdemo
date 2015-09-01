@@ -1,0 +1,3 @@
+This is a text file.
+Hello, I am Bin Wu.
+How are you?

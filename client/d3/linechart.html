@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>D3</title>
+  <style>
+    .path {
+      fill: none;
+      stroke: black;
+      stroke-width: 3px;
+    }
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: black;
+      shape-rendering: crispEdges;
+    }
+    .axis text {
+      font-family: sans-serif;
+      font-size: 11px;
+    }
+    .rect {
+      fill: steelblue;
+    }
+    .text {
+      fill: white;
+      text-anchor: middle;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KP9LKZ"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KP9LKZ');</script>
+  <!-- End Google Tag Manager -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+  <script>
+  var body = d3.select("body");
+
+  // --- line chart ---
+  var width = 400;
+  var height = 400;
+
+  // create canvas
+  var svg = body.append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  // read file
+  /*
+  d3.text("./data/text.txt", function(error, textdata) {
+    if (error)
+      console.log(error);
+
+    console.log(textdata);
+  });
+  */
+
+  d3.json("./data/data.json", function(error, jsondata) {
+    if (error)
+      console.log(error);
+
+    console.log(jsondata);
+
+    var xMax = d3.max(jsondata.data, function(d){
+      return d.x;
+    });
+
+    var yMax = d3.max(jsondata.data, function(d){
+      return d.y;
+    });
+
+    var xScale = d3.scale.linear()
+      .domain([0, xMax])
+      .range([0, 300]);
+
+    var yScale = d3.scale.linear()
+      .domain([0, yMax])
+      .range([250, 0]);
+
+    var xAxis = d3.svg.axis()
+      .scale(xScale)
+      .orient("bottom");
+
+    var gxAxis = svg.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(30, 350)")
+      .call(xAxis);
+
+    var yAxis = d3.svg.axis()
+      .scale(yScale)
+      .orient("left");
+
+    var gyAxis = svg.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(30, 100)")
+      .call(yAxis);
+
+    // line creator
+    var line = d3.svg.line()
+      .x(function(d){
+        return xScale(d.x);
+      })
+      .y(function(d){
+        return yScale(d.y);
+      })
+      .interpolate("line");
+
+    svg.append("path")
+      .attr("class", "path")
+      .attr("d", line(jsondata.data))
+      .attr("transform", "translate(30, 100)");
+  });
+
+  // line chart
+
+  </script>
+
+</body>
+<html>

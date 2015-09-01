@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>D3</title>
+  <style>
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: black;
+      shape-rendering: crispEdges;
+    }
+    .axis text {
+      font-family: sans-serif;
+      font-size: 11px;
+    }
+    .rect {
+      fill: steelblue;
+    }
+    .text {
+      fill: white;
+      text-anchor: middle;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KP9LKZ"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KP9LKZ');</script>
+  <!-- End Google Tag Manager -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+  <script>
+  var body = d3.select("body");
+
+  // --- bar graph ---
+  var width = 400;
+  var height = 400;
+
+  // create canvas
+  var svg = body.append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  // scale
+  // linear scale
+  var xScale = d3.scale.ordinal()
+    .domain([0, 1, 2, 3, 4, 5, 6])
+    .rangeRoundBands([0, 300]);
+    //.range([10, 11, 12, 13, 14, 15, 16]);
+
+  var yScale = d3.scale.linear()
+    .domain([100, 0]) // input
+    .range([0, 250]); // output
+
+  // axis
+  var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom");
+
+  var gxAxis = svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(30, 300)")
+    .call(xAxis);
+
+  var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient("left");
+
+  var gyAxis = svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(30, 50)")
+    .call(yAxis);
+
+  // full bar graph
+  var dataset = [30, 20, 10, 60, 50, 40, 33];
+  yScale.domain([0, 100]);
+
+  var rects = svg.selectAll(".rect")
+    .data(dataset)
+    .enter()
+    .append("rect")
+    .attr("class", "rect")
+    .attr("transform", "translate(30, 50)")
+    .attr("x", function(d, i){
+      return xScale(i);
+    })
+    .attr("y", function(d){
+      return width - 150 - yScale(d);
+    })
+    .attr("width", function(){
+      return xScale.rangeBand() - 4;
+    })
+    .attr("height", function(d){
+      return yScale(d);
+    });
+
+  var texts = svg.selectAll(".text")
+    .data(dataset)
+    .enter()
+    .append("text")
+    .attr("class", "text")
+    .attr("transform", "translate(30, 50)")
+    .attr("x", function(d, i){
+      return xScale(i);
+    })
+    .attr("y", function(d){
+      return width - 150 - yScale(d);
+    })
+    .attr("dx", function(){
+      return xScale.rangeBand() / 2;
+    })
+    .attr("dy", function(d){
+      return 15;
+    })
+    .text(function(d){
+      return d;
+    });
+
+  </script>
+
+</body>
+<html>
