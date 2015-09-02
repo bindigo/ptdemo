@@ -50,14 +50,14 @@
     // dynamically updated line chart
     var options = {
       title: {
-        text: 'AUD - CNY',
+        text: 'Currency Rates',
         subtext: 'yahoo data'
       },
       tooltip: {
-        trigger: 'axix'
+        trigger: 'axis'
       },
       legend: {
-        data: ['AUD - CNY']
+        data: ['AUD - CNY', 'AUD - USD']
       },
       toolbox: {
         show: true,
@@ -109,20 +109,58 @@
             var res = [];
             var len = 10;
             while (len--) {
-              res.push(initRate);
+              res.push(initRateAuCn);
             }
 
             console.log(res);
 
             return res;
-          })()
+          })(),
+          markPoint: {
+            data: [
+              {type: 'max', name: 'Max'},
+              {type: 'min', name: 'Min'}
+            ]
+          },
+          markLine: {
+            data: [
+              {type: 'average', name: 'Average'}
+            ]
+          }
+        },
+        {
+          name: 'AUD - USD',
+          type: 'bar',
+          data: (function(){
+            var res = [];
+            var len = 10;
+            while (len--) {
+              res.push(initRateAuUs);
+            }
+
+            console.log(res);
+
+            return res;
+          })(),
+          markPoint: {
+            data: [
+              {type: 'max', name: 'Max'},
+              {type: 'min', name: 'Min'}
+            ]
+          },
+          markLine: {
+            data: [
+              {type: 'average', name: 'Average'}
+            ]
+          }
         }
       ]
     };
 
     // main
     var myChart = echarts.init(document.getElementById('main'));
-    var initRate;
+    var initRateAuCn;
+    var initRateAuUs;
 
     $.ajax({
       url: "/api/ptrest/currencyrates",
@@ -131,15 +169,28 @@
         to: "cny"
       },
       success: function(data) {
-        initRate = data.query.results.rate.Rate;
+        initRateAuCn = data.query.results.rate.Rate;
 
-        console.log(initRate);
+        console.log(initRateAuCn);
+      }
+    });
+    $.ajax({
+      url: "/api/ptrest/currencyrates",
+      data: {
+        from: "aud",
+        to: "usd"
+      },
+      success: function(data) {
+        initRateAuUs = data.query.results.rate.Rate;
+
+        console.log(initRateAuUs);
 
         myChart.setOption(options);
       }
     });
 
-    var lastData;
+    var lastDataAuCn;
+    var lastDataAuUs;
     var axisData;
     var timeTicket;
     clearInterval(timeTicket);
@@ -151,7 +202,17 @@
           to: "cny"
         },
         success: function(data) {
-          lastData = data.query.results.rate.Rate;
+          lastDataAuCn = data.query.results.rate.Rate;
+        }
+      });
+      $.ajax({
+        url: "/api/ptrest/currencyrates",
+        data: {
+          from: "aud",
+          to: "usd"
+        },
+        success: function(data) {
+          lastDataAuUs = data.query.results.rate.Rate;
         }
       });
       axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
@@ -160,7 +221,13 @@
       myChart.addData([
         [
           0,        // 系列索引
-          lastData, // 新增数据
+          lastDataAuCn, // 新增数据
+          false,    // 新增数据是否从队列头部插入
+          false    // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+        ],
+        [
+          1,        // 系列索引
+          lastDataAuUs, // 新增数据
           false,    // 新增数据是否从队列头部插入
           false,    // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
           axisData  // 坐标轴标签
