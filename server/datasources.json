@@ -2,5 +2,92 @@
   "db": {
     "name": "db",
     "connector": "memory"
+  },
+  "ptrest": {
+    "name": "ptrest",
+    "connector": "rest",
+    "debug": true,
+    "options": {
+      "headers": {
+        "accepts": "application/json",
+        "content-type": "application/json"
+      },
+      "strictSSL": false
+    },
+    "operations": [
+      {
+        "template": {
+          "method": "GET",
+          "url": "http://query.yahooapis.com/v1/public/yql",
+          "headers": {
+            "accepts": "application/json",
+            "content-type": "application/json"
+          },
+          "options": {
+            "strictSSL": false,
+            "useQuerystring": true
+          },
+          "query": {
+            "q": "select * from yahoo.finance.xchange where pair in (\"{from}{to}\")",
+            "format": "{format=json}",
+            "env": "store://datatables.org/alltableswithkeys"
+          }
+        },
+        "functions": {
+          "currencyrates": [
+            "from",
+            "to",
+            "format"
+          ]
+        }
+      },
+      {
+        "template": {
+          "method": "GET",
+          "url": "http://maps.googleapis.com/maps/api/geocode/json",
+          "headers": {
+            "accepts": "application/json",
+            "content-type": "application/json"
+          },
+          "options": {
+            "strictSSL": false,
+            "useQuerystring": true
+          },
+          "query": {
+            "address": "{address}"
+          }
+        },
+        "functions": {
+          "geocode": [
+            "address"
+          ]
+        }
+      },
+      {
+        "template": {
+          "method": "GET",
+          "url": "https://maps.googleapis.com/maps/api/timezone/json",
+          "headers": {
+            "accepts": "application/json",
+            "content-type": "application/json"
+          },
+          "options": {
+            "strictSSL": false,
+            "useQuerystring": true
+          },
+          "query": {
+            "location": "{lat},{lon}",
+            "timestamp": "{timestamp}"
+          }
+        },
+        "functions": {
+          "timezone": [
+            "lat",
+            "lon",
+            "timestamp"
+          ]
+        }
+      }
+    ]
   }
 }

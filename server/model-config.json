@@ -31,5 +31,9 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "ptrest": {
+    "dataSource": "ptrest",
+    "public": true
   }
 }
