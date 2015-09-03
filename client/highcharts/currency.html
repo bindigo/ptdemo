@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>highcharts</title>
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KP9LKZ"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KP9LKZ');</script>
+  <!-- End Google Tag Manager -->
+
+  <div id="main" style="width:640;height:480px"></div>
+  <div id='debug'></div>
+
+  <script src="http://code.jquery.com/jquery-latest.min.js" type='text/javascript'></script>
+
+  <!-- highcharts -->
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script src='./js/darktheme.js'></script>
+
+  <script type="text/javascript">
+  // ajax call to get the rate
+  $.ajax({
+    url: "/api/ptrest/currencyrates",
+    data: {
+      from: "aud",
+      to: "cny"
+    },
+    success: function(data) {
+      console.log(JSON.stringify(data)); //JSON.parse(str) the other way
+
+      // get the details individually
+      var rate = data.query.results.rate.Rate;
+      console.log(rate);
+    }
+  });
+  </script>
+
+  <script type="text/javascript">
+  // global settings
+  Highcharts.setOptions({
+    global: {
+      useUTC: false
+    }
+  });
+
+  var auToCn;
+  var auToUs;
+  $.ajax({
+    url: "/api/ptrest/currencyrates",
+    data: {
+      from: "aud",
+      to: "cny"
+    },
+    success: function(data) {
+      auToCn = data.query.results.rate.Rate;
+    }
+  });
+  $.ajax({
+    url: "/api/ptrest/currencyrates",
+    data: {
+      from: "aud",
+      to: "usd"
+    },
+    success: function(data) {
+      auToUs = data.query.results.rate.Rate;
+    }
+  });
+
+  // set chart options
+  var options = {
+    title: {
+      text: 'Currency Rates',
+      x: -20 //center
+    },
+    subtitle: {
+      text: 'Source: Yahoo',
+      x: -20
+    },
+    xAxis: {
+      categories: (function() {
+        var now = new Date();
+        var res = [];
+        var len = 10;
+        while(len--) {
+          res.unshift(now.toLocaleTimeString().replace(/^\D*/,''));
+          now = new Date(now - 10000);
+        }
+
+        return res;
+      })()
+    },
+    yAxis: {
+      title: {
+        text: 'Price'
+      },
+      plotLines: [{
+        value: 0,
+        width: 1,
+        color: '#808080'
+      }]
+    },
+    tooltip: {
+      valueSuffix: ''
+    },
+    legend: {
+      layout: 'vertical',
+      align: 'right',
+      verticalAlign: 'middle',
+      borderWidth: 0
+    },
+    series: [{
+      name: 'AUD - CNY',
+      data: (function(){
+        var res = [];
+        var len = 10;
+        while (len--) {
+          res.push(0);
+        }
+
+        return res;
+      })()
+    }, {
+      name: 'AUD - USD',
+      data: (function(){
+        var res = [];
+        var len = 10;
+        while (len--) {
+          res.push(0);
+        }
+
+        return res;
+      })()
+    }]
+  };
+
+  $(document).ready(function() {
+    // var myChart = new Highcharts.Chart(options);
+    $('#main').highcharts(options);
+
+    // set up timers
+    setInterval(function() {
+      var now = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
+
+      console.log(auToCn);
+      $('#main').highcharts()
+        .series[0].addPoint([now, Number(auToCn)], true, true);
+      console.log(auToUs);
+      $('#main').highcharts()
+        .series[1].addPoint([now, Number(auToUs)], true, true);
+
+      $.ajax({
+        url: "/api/ptrest/currencyrates",
+        data: {
+          from: "aud",
+          to: "cny"
+        },
+        success: function(data) {
+          auToCn = data.query.results.rate.Rate;
+        }
+      });
+      $.ajax({
+        url: "/api/ptrest/currencyrates",
+        data: {
+          from: "aud",
+          to: "usd"
+        },
+        success: function(data) {
+          auToUs = data.query.results.rate.Rate;
+        }
+      });
+    }, 10000);
+  });
+  </script>
+  </body>
+<html>

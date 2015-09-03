@@ -84,7 +84,7 @@
             var len = 10;
             while (len--) {
               res.unshift(now.toLocaleTimeString().replace(/^\D*/,''));
-              now = new Date(now - 2000);
+              now = new Date(now - 10000);
             }
 
             console.log(res);
@@ -216,7 +216,7 @@
         }
       });
       axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
-      
+
       // 动态数据接口 addData
       myChart.addData([
         [
