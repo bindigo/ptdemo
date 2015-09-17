@@ -1,4 +1,4 @@
-root_dir = /home/wubin/workspace/ptdemo
+root_dir = /Users/garlic/workspace/ptdemo
 log_dir = $(root_dir)/log
 log_file = ptdemo
 log_ext = log
