@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 prog=$0
 
-python=$(which python)
+python=$(which python2.7)
 node=$(which node)
 npm=$(which npm)
 
