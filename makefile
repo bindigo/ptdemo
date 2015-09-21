@@ -37,6 +37,10 @@ stop:
 	@slc runctl stop
 
 .PHONY:
+initdb:
+	@cd server && node create-tables.js
+
+.PHONY:
 up:
 	@git pull
 

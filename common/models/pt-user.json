@@ -1,0 +1,20 @@
+{
+  "name": "PtUser",
+  "plural": "ptusers",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true,
+    "mysql": {
+      "table": "ptuser"
+    },
+    "mongodb": {
+      "collection": "ptuser"
+    }
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

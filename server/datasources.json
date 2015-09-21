@@ -89,5 +89,19 @@
         }
       }
     ]
+  },
+  "mongodb": {
+    "host": "127.0.0.1",
+    "port": 27017,
+    "database": "ptdemo",
+    "username": "ptdemo",
+    "password": "ptdemo",
+    "name": "mongodb",
+    "connector": "mongodb",
+    "server": {
+      "auto_reconnect": true,
+      "reconnectTries": 100,
+      "reconnectInterval": 1000
+    }
   }
 }
