@@ -4,37 +4,42 @@ log_file = ptdemo
 log_ext = log
 pid_file = $(log_dir)/ptdemo.pid
 debug_strings = loopback:connector:soap
+slc = $(shell pwd)/node_modules/.bin/slc
 
 # for docker
 USER=$(shell whoami)
 CONTAINERNAME=ptdemo
 
 .PHONY:
+setup:
+	@npm install strongloop && npm install
+
+.PHONY:
 run:
 	@rm -rf $(log_dir)/*
-	@slc run --cluster cpus -d --pid $(pid_file) -l $(log_dir)/$(log_file).%w.%p.$(log_ext) --no-profile
+	@$(slc) run --cluster cpus -d --pid $(pid_file) -l $(log_dir)/$(log_file).%w.%p.$(log_ext) --no-profile
 
 .PHONY:
 debug_log:
 	@rm -rf $(log_dir)/*
-	@DEBUG=$(debug_strings) slc run --cluster cpus -d -l $(log_dir)/$(log_file).$(log_ext) --no-profile
+	@DEBUG=$(debug_strings) $(slc) run --cluster cpus -d -l $(log_dir)/$(log_file).$(log_ext) --no-profile
 
 .PHONY:
 debug:
 	@rm -rf $(log_dir)/*
-	@slc debug server/server.js
+	@$(slc) debug server/server.js
 
 .PHONY:
 status:
-	@-slc runctl status
+	@-$(slc) runctl status
 
 .PHONY:
 restart:
-	@slc runctl restart
+	@$(slc) runctl restart
 
 .PHONY:
 stop:
-	@slc runctl stop
+	@$(slc) runctl stop
 
 .PHONY:
 initdb:
