@@ -87,41 +87,21 @@
             "timestamp"
           ]
         }
-      },
-      {
-        "template": {
-          "method": "GET",
-          "url": "http://192.168.2.21:8080/service/RSAPassword",
-          "headers": {
-            "accepts": "application/json"
-          },
-          "options": {
-            "strictSSL": false,
-            "useQuerystring": false
-          },
-          "query": {}
-        },
-        "functions": {
-          "regpubkey": []
-        }
-      },
-      {
-        "template": {
-          "method": "GET",
-          "url": "http://192.168.2.44:3000/ptmindservice/user/RSAPassword",
-          "headers": {
-            "accepts": "application/json"
-          },
-          "options": {
-            "strictSSL": false,
-            "useQuerystring": false
-          },
-          "query": {}
-        },
-        "functions": {
-          "loginpubkey": []
-        }
       }
     ]
+  },
+  "mongodb": {
+    "host": "127.0.0.1",
+    "port": 27017,
+    "database": "ptdemo",
+    "username": "ptdemo",
+    "password": "ptdemo",
+    "name": "mongodb",
+    "connector": "mongodb",
+    "server": {
+      "auto_reconnect": true,
+      "reconnectTries": 100,
+      "reconnectInterval": 1000
+    }
   }
 }

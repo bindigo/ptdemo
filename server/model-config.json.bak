@@ -14,19 +14,19 @@
     ]
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "mongodb",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "mongodb",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "mongodb",
     "public": false
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "mongodb",
     "public": false
   },
   "ptrest": {
@@ -34,7 +34,7 @@
     "public": true
   },
   "PtUser": {
-    "dataSource": "db",
+    "dataSource": "mongodb",
     "public": true
   }
 }

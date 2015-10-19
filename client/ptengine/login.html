@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+</head>
+
+<body>
+  <form id="loginForm" action="http://192.168.2.44:3000/ptmindservice/user/login" enctype='application/json' method="post">
+    <div>
+      <input type="text" name="userName" placeholder="Email" />
+    </div>
+    <div>
+      <input type="password" id="password" name="password" placeholder="Password" />
+    </div>
+    <div>
+      <input type="checkbox" id="rememberPass" name="rememberPass" />
+      Remember Me
+    </div>
+    <div>
+      <input type="hidden" id="publicKey" name="publicKey" />
+    </div>
+    <div>
+      <button id="loginButton" type="button">
+        Login
+      </button>
+    </div>
+  </form>
+
+  <!-- MicroSoft CDN for jquery -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  <!-- ptengine -->
+  <script src="js/rsa/Barrett.js"></script>
+  <script src="js/rsa/BigInt.js"></script>
+  <script src="js/rsa/RSA.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
