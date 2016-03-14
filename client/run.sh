@@ -6,7 +6,7 @@ node=$(which node)
 npm=$(which npm)
 
 __install() {
-  ${npm} install http-server -s
+  ${npm} install http-server
 }
 
 __run_python() {
